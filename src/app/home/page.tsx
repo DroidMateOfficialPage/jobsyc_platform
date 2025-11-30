@@ -12,10 +12,10 @@ import Messanges from "@/components/main_layout/Messanges";
 import { useSearchParams } from "next/navigation";
 
 export default function HomePage() {
-  const [profiles, setProfiles] = useState([]);
+  const [profiles, setProfiles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [profileType, setProfileType] = useState(null);
-  const [currentUserProfile, setCurrentUserProfile] = useState(null);
+  const [profileType, setProfileType] = useState<"candidate" | "company" | null>(null);
+  const [currentUserProfile, setCurrentUserProfile] = useState<any | null>(null);
 
   const searchParams = useSearchParams();
   const selectedIndustry = searchParams.get("industry_category");
@@ -146,19 +146,21 @@ export default function HomePage() {
   // ---------------------------------------
   // RECORD SWIPES (SAVE IN NEW TABLES)
   // ---------------------------------------
-  async function recordUserAction(action, targetId) {
+  async function recordUserAction(action: string, targetId: any) {
     const { data: { user }} = await supabase.auth.getUser();
     if (!user) return;
 
     const table = profileType === "candidate" ? "candidate_profile" : "company_profile";
 
-    const { data: row } = await supabase
+    const response = await supabase
       .from(table)
       .select(action)
       .eq("user_id", user.id)
       .single();
 
-    const existingList = Array.isArray(row?.[action]) ? row[action] : [];
+    const row = response.data as Record<string, any> | null;
+
+    const existingList = Array.isArray(row?.[action]) ? row![action] : [];
     if (!existingList.includes(targetId)) {
       const updated = [...existingList, targetId];
 
@@ -169,7 +171,7 @@ export default function HomePage() {
     }
   }
 
-  async function recordSwipe(dir, targetId) {
+  async function recordSwipe(dir: string, targetId: any) {
     const { data: { user }} = await supabase.auth.getUser();
     if (!user) return;
 
@@ -187,7 +189,8 @@ export default function HomePage() {
       .eq("user_id", targetId)
       .single();
 
-    const list = Array.isArray(targetRow?.[column]) ? targetRow[column] : [];
+    const targetValue = (targetRow as Record<string, any>)?.[column];
+    const list: any[] = Array.isArray(targetValue) ? targetValue : [];
 
     if (!list.includes(user.id)) {
       const updatedList = [...list, user.id];
@@ -198,7 +201,7 @@ export default function HomePage() {
     }
   }
 
-  const handleSwipe = async (dir, id) => {
+  const handleSwipe = async (dir: string, id: any) => {
     if (!id) return;
 
     if (dir === "right") await recordUserAction("liked", id);
