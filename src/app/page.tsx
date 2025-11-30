@@ -2,11 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
-import Link from "next/link";
-import Image from "next/image";
-import styled from "styled-components";
 import Form from "@/components/register_and_login_form/Form";
-import Loader from "@/components/layout/Loader";
 import CardForm from "@/components/register_and_login_form/formandcard";
 
 const supabase = createClient(

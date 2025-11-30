@@ -1,12 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
-import { createClient } from "@supabase/supabase-js";
-import Link from "next/link";
-import Image from "next/image";
-import styled from "styled-components";
-import Form from "@/components/register_and_login_form/Form";
 import CardForm from "@/components/register_and_login_form/formandcard";
 import RegisterPage from "@/components/register_and_login_form/register_page";
 
