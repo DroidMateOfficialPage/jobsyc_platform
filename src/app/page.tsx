@@ -111,7 +111,7 @@ const styles = {
     backgroundSize: "cover",
     backgroundPosition: "center",
     display: "flex",
-    height: "100vh",
+    minHeight: "100dvh",
   },
   leftSide: {
     flex: 1,
