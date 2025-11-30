@@ -1,103 +1,152 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+import Link from "next/link";
 import Image from "next/image";
+import styled from "styled-components";
+import Form from "@/components/register_and_login_form/Form";
+import Loader from "@/components/layout/Loader";
+import CardForm from "@/components/register_and_login_form/formandcard";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+); // koristi tvoj Supabase client
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState({ type: null, completeness: 0 });
+  const [isDesktop, setIsDesktop] = useState(true);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      setLoading(false);
+
+      if (user) {
+        const { data: userRow } = await supabase
+          .from("users")
+          .select("profile_type")
+          .eq("id", user.id)
+          .single();
+
+        setProfile({
+          type: userRow?.profile_type || null,
+          completeness: 0
+        });
+      }
+    };
+
+    getUser();
+
+    // 🔹 Supabase listener — prati promjene login/logout stanja
+    const { data: listener } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+
+      if (session?.user) {
+        const { data: userRow } = await supabase
+          .from("users")
+          .select("profile_type")
+          .eq("id", session.user.id)
+          .single();
+
+        setProfile({
+          type: userRow?.profile_type || null,
+          completeness: 0
+        });
+      }
+    });
+
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      listener.subscription.unsubscribe();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
+  if (!user) {
+    return (
+      <div style={styles.container}>
+        {isDesktop && (
+          <div style={styles.leftSide}>
+            <CardForm />
+          </div>
+        )}
+        <div style={isDesktop ? styles.rightSide : { ...styles.rightSide, flex: 1 }}>
+          <Form />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      </div>
+    );
+  }
+
+  if (profile.completeness >= 70) {
+    if (typeof window !== "undefined") window.location.href = "/home";
+    return null;
+  }
+
+  if (profile.type === "candidate") {
+    if (typeof window !== "undefined") window.location.href = "/register_candidate";
+    return null;
+  }
+
+  if (profile.type === "company") {
+    if (typeof window !== "undefined") window.location.href = "/register_company";
+    return null;
+  }
+
+  // Optionally, fallback UI if profile.type is null and not loading
+  return null;
 }
+
+const styles = {
+  container: {
+    backgroundImage: `url('/images/backgroundws.png')`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    display: "flex",
+    height: "100vh",
+  },
+  leftSide: {
+    flex: 1,
+    padding: "20px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  rightSide: {
+    flex: 1,
+    padding: "20px",
+    backgroundColor: "#ffffff10",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    padding: "10px 20px",
+    margin: "10px",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
+  storeLinks: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+};

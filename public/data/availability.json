@@ -1,0 +1,7 @@
+[
+  { "label": "Odmah" },
+  { "label": "Do 10 dana" },
+  { "label": "Između 10 i 20 dana" },
+  { "label": "Za 20 dana ili više" },
+  { "label": "Po dogovoru" }
+]

@@ -1,0 +1,78 @@
+[
+  { "label": "Informacione tehnologije (IT)", "category": "IT & Development" },
+  { "label": "Razvoj softvera", "category": "IT & Development" },
+  { "label": "Veštačka inteligencija i mašinsko učenje", "category": "IT & Development" },
+  { "label": "Sajber bezbednost", "category": "IT & Development" },
+  { "label": "Mobilne aplikacije", "category": "IT & Development" },
+  { "label": "Web razvoj", "category": "IT & Development" },
+
+  { "label": "Zdravstvo i medicina", "category": "Medicina" },
+  { "label": "Farmacija i biotehnologija", "category": "Medicina" },
+
+  { "label": "Telekomunikacije", "category": "IT & Development" },
+
+  { "label": "Finansije i bankarstvo", "category": "Biznis & Finansije" },
+  { "label": "Investicije i osiguranje", "category": "Biznis & Finansije" },
+  { "label": "Računovodstvo i revizija", "category": "Biznis & Finansije" },
+
+  { "label": "Obrazovanje i e-učenje", "category": "Edukacija" },
+  { "label": "Univerzitetsko obrazovanje", "category": "Edukacija" },
+  { "label": "Osnovno i srednje obrazovanje", "category": "Edukacija" },
+  { "label": "Edukacija za odrasle", "category": "Edukacija" },
+
+  { "label": "Konsalting", "category": "Biznis & Finansije" },
+
+  { "label": "Marketing i oglašavanje", "category": "Marketing & Sales" },
+  { "label": "Digitalni marketing", "category": "Marketing & Sales" },
+  { "label": "Odnosi s javnošću (PR)", "category": "Marketing & Sales" },
+
+  { "label": "Dizajn i kreativne industrije", "category": "IT & Development" },
+  { "label": "Grafički dizajn", "category": "IT & Development" },
+  { "label": "UI/UX dizajn", "category": "IT & Development" },
+  { "label": "Moda i tekstil", "category": "Proizvodnja" },
+
+  { "label": "Arhitektura i urbanizam", "category": "Proizvodnja" },
+  { "label": "Građevinarstvo i inženjering", "category": "Proizvodnja" },
+
+  { "label": "Mašinstvo", "category": "Proizvodnja" },
+  { "label": "Elektrotehnika", "category": "Proizvodnja" },
+  { "label": "Energetika", "category": "Proizvodnja" },
+  { "label": "Nafta i gas", "category": "Proizvodnja" },
+
+  { "label": "Poljoprivreda", "category": "Proizvodnja" },
+  { "label": "Šumarstvo i ribarstvo", "category": "Proizvodnja" },
+  { "label": "Veterina", "category": "Medicina" },
+
+  { "label": "Transport i logistika", "category": "Logistika" },
+  { "label": "Avioindustrija", "category": "Logistika" },
+  { "label": "Pomorstvo", "category": "Logistika" },
+  { "label": "Automobilska industrija", "category": "Logistika" },
+
+  { "label": "Proizvodnja i montaža", "category": "Proizvodnja" },
+  { "label": "Maloprodaja i veleprodaja", "category": "Marketing & Sales" },
+  { "label": "E-commerce (Online trgovina)", "category": "Marketing & Sales" },
+
+  { "label": "Turizam i ugostiteljstvo", "category": "Ugostiteljstvo" },
+  { "label": "Hotelijerstvo", "category": "Ugostiteljstvo" },
+  { "label": "Event menadžment", "category": "Marketing & Sales" },
+
+  { "label": "Pravo i pravosuđe", "category": "Biznis & Finansije" },
+  { "label": "Javna uprava i državne službe", "category": "Biznis & Finansije" },
+  { "label": "Nevladine organizacije (NVO)", "category": "Biznis & Finansije" },
+
+  { "label": "Istraživanje i razvoj (R&D)", "category": "IT & Development" },
+  { "label": "Ljudski resursi (HR)", "category": "Biznis & Finansije" },
+  { "label": "Menadžment i liderstvo", "category": "Biznis & Finansije" },
+
+  { "label": "Sport i rekreacija", "category": "Ugostiteljstvo" },
+  { "label": "Zabava i mediji", "category": "Marketing & Sales" },
+  { "label": "Muzika i produkcija", "category": "Marketing & Sales" },
+  { "label": "Igre i gejming industrija", "category": "IT & Development" },
+
+  { "label": "Životna sredina i ekologija", "category": "Proizvodnja" },
+  { "label": "Socijalni rad i humanitarni sektor", "category": "Medicina" },
+
+  { "label": "Tržište nekretnina", "category": "Biznis & Finansije" },
+  { "label": "Obrada podataka i analitika", "category": "IT & Development" },
+  { "label": "Startupi i preduzetništvo", "category": "Biznis & Finansije" }
+]

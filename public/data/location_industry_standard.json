@@ -1,0 +1,6 @@
+[
+  { "label": "Rad na daljinu (remote)" },
+  { "label": "Hibridni rad (kombinovano)" },
+  { "label": "Rad u kancelariji (on-site)" },
+  { "label": "Lokacija mi nije bitna" }
+]

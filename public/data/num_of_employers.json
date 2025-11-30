@@ -1,0 +1,11 @@
+[
+  { "label": "1–5 zaposlenih" },
+  { "label": "6–10 zaposlenih" },
+  { "label": "11–20 zaposlenih" },
+  { "label": "21–50 zaposlenih" },
+  { "label": "51–100 zaposlenih" },
+  { "label": "101–250 zaposlenih" },
+  { "label": "251–500 zaposlenih" },
+  { "label": "501–1000 zaposlenih" },
+  { "label": "1000+ zaposlenih" }
+]
