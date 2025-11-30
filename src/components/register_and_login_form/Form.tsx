@@ -168,7 +168,6 @@ const StyledWrapper = styled.div`
     padding: 25px 35px;
     border: 5px solid rgb(255, 255, 255);
     box-shadow: rgba(133, 189, 215, 0.88) 0px 30px 30px -20px;
-    margin: 20px;
   }
 
   .heading {
