@@ -12,6 +12,7 @@ import Messanges from "@/components/main_layout/Messanges";
 import { useSearchParams } from "next/navigation";
 
 export default function HomePage() {
+
   const [profiles, setProfiles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [profileType, setProfileType] = useState<"candidate" | "company" | null>(null);
@@ -265,3 +266,6 @@ export default function HomePage() {
     </div>
   );
 }
+
+
+export const dynamic = "force-dynamic";
