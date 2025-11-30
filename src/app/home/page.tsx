@@ -5,7 +5,10 @@ import ProfileCard from "@/components/card_layout/ProfileCard";
 import { supabase } from "@/lib/supabaseClient";
 import SwipeableCard from "@/components/card_layout/SwipeableCard";
 
-import SidebarLeft from "@/components/main_layout/SidebarLeft";
+import dynamic from "next/dynamic";
+const SidebarLeft = dynamic(() => import("@/components/main_layout/SidebarLeft"), {
+  ssr: false,
+});
 import TopIndustries from "@/components/main_layout/TopIndustries";
 import RightSuggestions from "@/components/main_layout/RightSuggestions";
 import Messanges from "@/components/main_layout/Messanges";
