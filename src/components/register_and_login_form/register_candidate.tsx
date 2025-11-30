@@ -7,7 +7,6 @@ import { supabase } from "@/lib/supabaseClient";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
-import { Loader } from "@googlemaps/js-api-loader";
 
 declare global {
   interface Window {
