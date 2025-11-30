@@ -14,15 +14,24 @@ import RightSuggestions from "@/components/main_layout/RightSuggestions";
 import Messanges from "@/components/main_layout/Messanges";
 import { useSearchParams } from "next/navigation";
 
+import ParamsWrapper from "@/components/wrappers/ParamsWrapper";
+
+import { Suspense } from "react";
+
+let selectedIndustry: string | null = null;
+
+function ParamsReader() {
+  const params = useSearchParams();
+  selectedIndustry = params.get("industry_category");
+  return null;
+}
+
 export default function HomePage() {
 
   const [profiles, setProfiles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [profileType, setProfileType] = useState<"candidate" | "company" | null>(null);
   const [currentUserProfile, setCurrentUserProfile] = useState<any | null>(null);
-
-  const searchParams = useSearchParams();
-  const selectedIndustry = searchParams.get("industry_category");
 
   // ----------------------------
   //  LOAD USER TYPE FROM USERS
@@ -222,6 +231,9 @@ export default function HomePage() {
 
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-white/5">
+      <Suspense fallback={null}>
+        <ParamsReader />
+      </Suspense>
       <div className="flex flex-col w-full">
         <div className="relative z-0">
           <SidebarLeft />
