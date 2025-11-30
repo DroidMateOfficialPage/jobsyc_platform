@@ -1,6 +1,9 @@
 "use client";
 
-import SidebarLeft from "@/components/main_layout/SidebarLeft";
+import dynamic from "next/dynamic";
+const SidebarLeft = dynamic(() => import("@/components/main_layout/SidebarLeft"), {
+  ssr: false,
+});
 import SettingsSidebar from "@/app/settings/components/SideBar";
 import { useEffect, useState } from "react";
 

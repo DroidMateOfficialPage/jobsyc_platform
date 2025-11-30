@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
-import SidebarLeft from "@/components/main_layout/SidebarLeft";
+import dynamic from "next/dynamic";
+const SidebarLeft = dynamic(() => import("@/components/main_layout/SidebarLeft"), {
+  ssr: false,
+});
 
 import ProfileHero from "./components/ProfileHero";
 import StatsBar from "./components/StatsBar";
