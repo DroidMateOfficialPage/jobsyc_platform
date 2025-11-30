@@ -3,7 +3,6 @@
 import ProfileCardFront from "./ProfileCardFront";
 import ProfileCardBack from "./ProfileCardBack";
 import { useState } from "react";
-import styled from "styled-components";
 
 export default function ProfileCard({ type, data }) {
   const [showBack, setShowBack] = useState(false);
