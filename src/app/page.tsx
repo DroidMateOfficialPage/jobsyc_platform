@@ -74,13 +74,15 @@ export default function Home() {
   if (!user) {
     return (
       <div style={styles.container}>
-        {isDesktop && (
-          <div style={styles.leftSide}>
-            <CardForm />
+        <div style={{ width: "100%", maxWidth: 480 }}>
+          {isDesktop && (
+            <div style={styles.leftSide}>
+              <CardForm />
+            </div>
+          )}
+          <div style={isDesktop ? styles.rightSide : { ...styles.rightSide, flex: 1 }}>
+            <Form />
           </div>
-        )}
-        <div style={isDesktop ? styles.rightSide : { ...styles.rightSide, flex: 1 }}>
-          <Form />
         </div>
       </div>
     );
@@ -111,7 +113,12 @@ const styles = {
     backgroundSize: "cover",
     backgroundPosition: "center",
     display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     minHeight: "100dvh",
+    width: "100%",
+    padding: "20px 0",
   },
   leftSide: {
     flex: 1,
