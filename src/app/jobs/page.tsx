@@ -54,9 +54,7 @@ export default function JobsPage() {
 
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-[#0d0d0d] flex-col md:flex-row">
-      <div className="hidden md:block">
         <SidebarLeft />
-      </div>
 
       <div className="flex-1 px-4 py-6 md:px-10 md:py-8 md:ml-[250px]">
         <h1 className="text-3xl font-bold mb-6 dark:text-white">Poslovi</h1>

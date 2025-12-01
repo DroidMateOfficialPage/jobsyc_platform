@@ -22,18 +22,6 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  const [isDesktop, setIsDesktop] = useState(true);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       const {
@@ -102,12 +90,9 @@ export default function ProfilePage() {
 
   return (
     <div className="w-full flex">
-      {/* LEFT SIDEBAR – only desktop */}
-      {isDesktop && (
-        <div className="w-[280px] h-screen sticky top-0">
-          <SidebarLeft />
-        </div>
-      )}
+      <div className="w-[280px] h-screen sticky top-0 hidden lg:block">
+        <SidebarLeft />
+      </div>
 
       {/* MAIN CONTENT */}
       <div

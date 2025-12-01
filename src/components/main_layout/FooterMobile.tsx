@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Home, MessageCircle, FileText, MoreHorizontal } from "lucide-react";
 import SidebarLeft from "./SidebarLeft";
+import Link from "next/link";
 
 export default function FooterMobile() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -19,19 +20,19 @@ export default function FooterMobile() {
       ">
         
         {/* HOME */}
-        <button className="flex flex-col items-center gap-1 text-gray-600 dark:text-gray-300">
+        <Link href="/home" className="flex flex-col items-center gap-1 text-gray-600 dark:text-gray-300">
           <Home size={26} />
-        </button>
+        </Link>
 
         {/* PRIJAVE */}
-        <button className="flex flex-col items-center gap-1 text-gray-600 dark:text-gray-300">
+        <Link href="/applications" className="flex flex-col items-center gap-1 text-gray-600 dark:text-gray-300">
           <FileText size={26} />
-        </button>
+        </Link>
 
         {/* PORUKE */}
-        <button className="flex flex-col items-center gap-1 text-gray-600 dark:text-gray-300">
+        <Link href="/messages" className="flex flex-col items-center gap-1 text-gray-600 dark:text-gray-300">
           <MessageCircle size={26} />
-        </button>
+        </Link>
 
         {/* MORE (opens sidebar) */}
         <button

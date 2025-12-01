@@ -8,9 +8,7 @@ export default function NotificationsPage() {
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-[#111]">
       {/* LEFT SIDEBAR – Desktop only */}
-      <div className="hidden md:block">
         <SidebarLeft />
-      </div>
 
       {/* MAIN CONTENT */}
       <div className="flex-1 flex flex-col md:ml-[220px] lg:ml-[260px] xl:ml-[280px]">
