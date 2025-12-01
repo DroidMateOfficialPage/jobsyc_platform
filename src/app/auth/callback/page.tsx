@@ -22,6 +22,18 @@ export default function CallbackPage() {
       const user = session.user;
       const userId = user.id;
 
+      // Detect provider
+      const provider = user.app_metadata?.provider || "email";
+
+      // EMAIL LOGIN — email/password login MUST go to verify screen until verified
+      if (provider === "email") {
+        if (!user.email_confirmed_at) {
+          setStatus("Molimo potvrdite email adresu.");
+          router.push("/auth/verify-email");
+          return;
+        }
+      }
+
       // Check if user exists in users table
       const { data: existing, error: selErr } = await supabase
         .from("users")
@@ -31,16 +43,25 @@ export default function CallbackPage() {
 
       // If no row exists → create minimal user row
       if (!existing) {
+        const fullName =
+          user.user_metadata?.full_name ||
+          user.user_metadata?.name ||
+          `${user.user_metadata?.given_name || ""} ${user.user_metadata?.family_name || ""}`.trim();
+
+        const slug = (fullName || "user")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+
         await supabase.from("users").insert({
           id: userId,
-          full_name: user.user_metadata.full_name || "",
+          full_name: fullName || "",
           email: user.email,
           phone: user.phone || null,
           profile_type: null,
-          slug: (user.user_metadata.full_name || "user")
-            .toLowerCase()
-            .replace(/ /g, "-")
+          slug,
         });
+
         router.push("/choose-profile");
         return;
       }
@@ -58,6 +79,12 @@ export default function CallbackPage() {
 
       if (existing.profile_type === "company") {
         router.push("/register_company");
+        return;
+      }
+
+      // Fallback for verified email login
+      if (provider === "email" && existing.profile_type) {
+        router.push("/home");
         return;
       }
 
