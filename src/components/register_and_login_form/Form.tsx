@@ -34,58 +34,24 @@ const Form = () => {
     window.location.href = "/home";
   };
 
-  const redirectTo = `https://app.jobsyc.co/register_candidate`;
-
-  const handleOAuthPostSignup = async (userId: string, email: string) => {
-    // 1) CREATE USER IN `users`
-    await supabase.from("users").upsert({
-      id: userId,
-      full_name: email.split("@")[0],
-      email: email,
-      profile_type: "candidate"
-    });
-
-    // 2) CREATE BASIC CANDIDATE PROFILE
-    await supabase.from("candidate_profile").upsert({
-      user_id: userId,
-      first_name: email.split("@")[0],
-      last_name: "",
-      email: email,
-      profile_picture_url: null,
-      profile_completion: 10
-    });
-  };
+  const redirectTo = `https://app.jobsyc.co/auth/callback`;
 
   const handleGoogleLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    setErrorMsg(null);
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo },
     });
-
-    if (error) {
-      setErrorMsg("❌ Greška prilikom Google prijave.");
-      return;
-    }
-
-    if (data?.user) {
-      await handleOAuthPostSignup(data.user.id, data.user.email || "");
-    }
+    if (error) setErrorMsg("❌ Greška prilikom Google prijave.");
   };
 
   const handleLinkedInLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    setErrorMsg(null);
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "linkedin_oidc",
       options: { redirectTo },
     });
-
-    if (error) {
-      setErrorMsg("❌ Greška prilikom LinkedIn prijave.");
-      return;
-    }
-
-    if (data?.user) {
-      await handleOAuthPostSignup(data.user.id, data.user.email || "");
-    }
+    if (error) setErrorMsg("❌ Greška prilikom LinkedIn prijave.");
   };
 
   // // 🔹 Facebook OAuth login
