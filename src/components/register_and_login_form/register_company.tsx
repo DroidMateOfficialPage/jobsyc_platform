@@ -196,12 +196,13 @@ const RegisterCompany = () => {
         location_lon: formData.location_lon,
         location_region: formData.location_region,
         profile_completion: 70,
+        badge_url: "https://mxiwzeapmfevwfbltcyl.supabase.co/storage/v1/object/public/badges/founder_badge.png",
       });
 
     if (profileErr) return alert(profileErr.message);
 
     alert("Profil kompanije uspješno sačuvan!");
-    router.push("/home");
+    router.push("/onboarding");
   };
 
   // -------------------------------

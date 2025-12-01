@@ -191,13 +191,17 @@ const RegisterCandidate = () => {
   const updateProfile = async () => {
     const { error } = await supabase
       .from("candidate_profile")
-      .update({ ...formData, profile_completion: 70 })
+      .update({
+        ...formData,
+        profile_completion: 70,
+        badge_url: "https://mxiwzeapmfevwfbltcyl.supabase.co/storage/v1/object/public/badges/founder_badge.png",
+      })
       .eq("user_id", authUser.id);
 
     if (error) return alert(error.message);
 
     alert("Profil dopunjen");
-    router.push("/home");
+    router.push("/onboarding");
   };
 
   // ---------------------------

@@ -122,8 +122,14 @@ export default function ProfileCardFront({ type, data }: { type: "company" | "ca
     : `${data.first_name || ""} ${data.last_name || ""} ${data.age ? "· " + data.age : ""}`.trim();
 
   const logoUrl = isCompany
-    ? (data.logo_file ? `data:image/png;base64,${Buffer.from(data.logo_file).toString("base64")}` : "/images/default-company.png")
-    : "/images/default-user.png";
+    ? (data.logo_url
+        ? data.logo_url
+        : data.logo_file
+          ? `data:image/png;base64,${Buffer.from(data.logo_file).toString("base64")}`
+          : "/images/default-company.png")
+    : (data.profile_picture_url
+        ? data.profile_picture_url
+        : "/images/default-user.png");
 
   // gornji plavi čipovi (industrija, lokacija, godina / obrazovanje)
   const topChips = [];
@@ -239,6 +245,17 @@ const handlePass = (e) => {
       {/* IME / NAZIV */}
       <TitleRow>
         <Title>{title}</Title>
+        {data.badge_url && (
+          <div style={{ display: "flex", gap: "6px", top: "4px" }}>
+            <Image
+              src={data.badge_url}
+              alt="badge"
+              width={24}
+              height={24}
+              style={{ objectFit: "contain" }}
+            />
+          </div>
+        )}
         {isCompany && <Verify>✓</Verify>}
       </TitleRow>
 
@@ -409,9 +426,10 @@ const LogoImage = styled.div`
 
 const TitleRow = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 8px;
   margin-bottom: 8px;
   text-align: center;
 `;

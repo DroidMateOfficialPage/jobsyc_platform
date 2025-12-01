@@ -167,7 +167,12 @@ export default function RightSuggestions() {
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center overflow-hidden">
-                {profile.logo_file ? (
+                {profile.logo_url || profile.profile_picture_url ? (
+                  <img
+                    src={profile.logo_url || profile.profile_picture_url}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                ) : profile.logo_file ? (
                   <img
                     src={
                       typeof profile.logo_file === "string"

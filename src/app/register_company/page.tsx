@@ -1,11 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
-
-import styled from 'styled-components';
-import Form from "@/components/register_and_login_form/Form";
 
 import CardForm from "@/components/register_and_login_form/formandcard";
 import { supabase } from "@/lib/supabaseClient";

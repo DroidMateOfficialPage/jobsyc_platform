@@ -36,6 +36,7 @@ export default function HomePage() {
   // ----------------------------
   //  LOAD USER TYPE FROM USERS
   // ----------------------------
+
   useEffect(() => {
     const loadUser = async () => {
       const { data: { user }} = await supabase.auth.getUser();
@@ -108,7 +109,8 @@ export default function HomePage() {
               industry_category: p.industry_category || [],
               work_mode: p.work_mode || [],
               location: p.location || [],
-              logo_file: p.logo_file,
+              logo_url: p.logo_url,
+              badge_url: p.badge_url || [],
             }))
           : data.map((k) => ({
               id: k.user_id,
@@ -123,6 +125,8 @@ export default function HomePage() {
               work_mode: k.work_mode || [],
               location: k.location || [],
               salary: k.salary || [],
+              profile_picture_url: k.profile_picture_url,
+              badge_url: k.badge_url || [],
             }));
 
       // filter by saved/liked/passed/superliked profiles
