@@ -7,6 +7,8 @@ const SidebarLeft = dynamic(() => import("@/components/main_layout/SidebarLeft")
 import SettingsSidebar from "@/app/settings/components/SideBar";
 import { useEffect, useState } from "react";
 
+const BasicSettings = dynamic(() => import("@/app/settings/basic/page"), { ssr: false });
+
 export default function SettingsPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -19,19 +21,28 @@ export default function SettingsPage() {
 
       {/* SETTINGS CONTENT WRAPPER */}
       <div className="flex w-full ml-0 md:ml-[80px] lg:ml-[120px] xl:ml-[250px]">
-        
-        {/* SETTINGS SIDEBAR */}
-        <SettingsSidebar />
+        {/* SETTINGS SIDEBAR, hidden on small screens */}
+        <div className="hidden md:block">
+          <SettingsSidebar />
+        </div>
 
         {/* MAIN SETTINGS AREA */}
         <div className="flex-1 p-6">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-            Postavke profila
-          </h1>
-
-          <p className="text-gray-600 dark:text-gray-300">
-            Izaberite kategoriju iz menija lijevo da uredite detalje svog profila.
-          </p>
+          {/* Mobile/tablet top dropdown navigation */}
+          <div className="md:hidden w-full mb-4">
+            <select
+              onChange={(e) => window.location.href = `/settings/${e.target.value}`}
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-[#1a1a1a]"
+            >
+              <option value="basic">Osnovni podaci</option>
+              <option value="experience">Iskustvo</option>
+              <option value="skills">Vještine</option>
+              <option value="preferences">Preferencije</option>
+              <option value="portfolio">Portfolio</option>
+              <option value="socials">Društvene mreže</option>
+            </select>
+          </div>
+          <BasicSettings />
         </div>
       </div>
     </div>

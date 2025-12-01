@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import SidebarLeft from "@/components/main_layout/SidebarLeft";
-import SettingsSidebar from "@/app/settings/components/SideBar";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function BasicSettings() {
@@ -31,52 +29,70 @@ export default function BasicSettings() {
   const [imageFile, setImageFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setImageFile(file);
-    setPreviewUrl(URL.createObjectURL(file));
-  };
+  const handleImageUpload = (e: any) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  setImageFile(file);
+  setPreviewUrl(URL.createObjectURL(file)); // prikaz slike odmah
+};
 
   const saveImageToStorage = async () => {
-    if (!imageFile) return;
+  if (!imageFile) {
+    alert("Molimo odaberite sliku.");
+    return;
+  }
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    alert("Niste prijavljeni.");
+    return;
+  }
 
-    const bucket = profileType === "company" ? "logotypes" : "profile_pictures";
-    const fileName = `${user.id}.png`;
+  const bucket = profileType === "company" ? "logotypes" : "profile_pictures";
 
-    const { error: uploadError } = await supabase.storage
-      .from(bucket)
-      .upload(fileName, imageFile, { upsert: true });
+  // Ekstenzija
+  const ext = imageFile.name.split(".").pop();
+  const fileName = `${user.id}.${ext}`;
+  const filePath = fileName;
 
-    if (uploadError) {
-      console.error("Upload error:", uploadError);
-      alert("Greška pri uploadu slike.");
-      return;
-    }
+  // ✔ Upload fajla
+  const { error: uploadError } = await supabase.storage
+    .from(bucket)
+    .upload(filePath, imageFile, {
+      upsert: true,
+      cacheControl: "3600",
+      contentType: imageFile.type,
+    });
 
-    const { data: publicURL } = supabase.storage
-      .from(bucket)
-      .getPublicUrl(fileName);
+  if (uploadError) {
+    console.error("❌ Upload greška:", uploadError);
+    alert("Greška pri uploadu slike.");
+    return;
+  }
 
-    const url = publicURL.publicUrl;
+  // ✔ Public URL
+  const { data: urlData } = supabase.storage
+    .from(bucket)
+    .getPublicUrl(filePath);
 
-    if (profileType === "company") {
-      await supabase
-        .from("company_profile")
-        .update({ logo_url: url })
-        .eq("user_id", user.id);
-    } else {
-      await supabase
-        .from("candidate_profile")
-        .update({ profile_picture_url: url })
-        .eq("user_id", user.id);
-    }
+  const publicUrl = urlData.publicUrl;
 
-    alert("✔ Profilna slika uspješno ažurirana!");
-  };
+  // ✔ Upis u bazu
+  if (profileType === "company") {
+    await supabase
+      .from("company_profile")
+      .update({ logo_url: publicUrl })
+      .eq("user_id", user.id);
+  } else {
+    await supabase
+      .from("candidate_profile")
+      .update({ profile_picture_url: publicUrl })
+      .eq("user_id", user.id);
+  }
+
+  alert("✔ Profilna slika uspješno ažurirana!");
+};
 
   useEffect(() => setMounted(true), []);
 
@@ -109,11 +125,14 @@ export default function BasicSettings() {
 
         const { data: cand } = await supabase
           .from("candidate_profile")
-          .select("age")
+          .select("date_of_birth, phone, email")
           .eq("user_id", user.id)
           .single();
 
-        if (cand?.age) setBirthDate(cand.age);
+        if (cand?.date_of_birth) setBirthDate(cand.date_of_birth);
+        // Optionally, set phone/email from candidate_profile if needed:
+        // if (cand?.phone) setPhone(cand.phone);
+        // if (cand?.email) setEmail(cand.email);
       }
 
       // Company data
@@ -122,7 +141,7 @@ export default function BasicSettings() {
 
         const { data: comp } = await supabase
           .from("company_profile")
-          .select("legal_full_name, jib, pib, founded_year")
+          .select("legal_full_name, jib, pib, founded_year, phone")
           .eq("user_id", user.id)
           .single();
 
@@ -131,6 +150,7 @@ export default function BasicSettings() {
           setJib(comp.jib || "");
           setPib(comp.pib || "");
           setFoundedYear(comp.founded_year || "");
+          setPhone(comp.phone || "");
         }
       }
 
@@ -149,14 +169,17 @@ export default function BasicSettings() {
       const fullName = `${firstName} ${lastName}`.trim();
 
       await supabase.from("users")
-        .update({ full_name: fullName, phone: phone })
+        .update({ full_name: fullName, phone: phone, email: email })
         .eq("id", user.id);
 
       await supabase.from("candidate_profile")
         .update({
           first_name: firstName,
           last_name: lastName,
-          age: birthDate
+          date_of_birth: birthDate,
+          phone: phone,
+          email: email,
+          work_experience: "", // placeholder if needed by schema
         })
         .eq("user_id", user.id);
     }
@@ -176,6 +199,7 @@ export default function BasicSettings() {
           jib: jib,
           pib: pib,
           founded_year: foundedYear,
+          phone: phone,
         })
         .eq("user_id", user.id);
     }
@@ -183,21 +207,12 @@ export default function BasicSettings() {
     alert("✔ Podaci su uspješno ažurirani!");
   };
 
-  if (!mounted) return (
-    <div className="flex h-screen bg-gray-50 dark:bg-[#0d0d0d]">
-      <SidebarLeft />
-    </div>
-  );
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-[#0d0d0d]">
-      <SidebarLeft />
+    <div className="flex min-h-screen max-h-screen overflow-y-auto bg-gray-50 dark:bg-[#0d0d0d] py-6 px-4">
 
-      <div className="flex w-full ml-[250px]">
-        <SettingsSidebar />
-
-        <div className="flex-1 p-10 max-w-2xl bg-white dark:bg-[#0f0f0f] rounded-xl shadow-md dark:shadow-none border border-gray-200 dark:border-white/10">
-          <h1 className="text-2xl font-bold mb-8 text-gray-800 dark:text-white">
+        <div className="flex-1 max-w-2xl mx-auto p-8 bg-white dark:bg-[#0f0f0f] rounded-2xl shadow-lg dark:shadow-none border border-gray-200 dark:border-white/10 overflow-y-auto max-h-[85vh]">
+          <h1 className="text-xl font-bold mb-6 text-gray-800 dark:text-white">
             Osnovni podaci
           </h1>
 
@@ -207,11 +222,11 @@ export default function BasicSettings() {
             <div className="flex flex-col gap-8">
 
 
-          <div className="mb-8 flex flex-col items-center gap-4">
+          <div className="mb-6 flex flex-col items-center gap-4 border-b pb-6 border-gray-200 dark:border-white/10">
             {previewUrl && (
               <img
                 src={previewUrl}
-                className="w-32 h-32 rounded-full object-cover border border-gray-300 dark:border-white/20"
+                className="w-28 h-28 rounded-full object-cover border border-gray-300 dark:border-white/20 shadow"
               />
             )}
 
@@ -224,7 +239,7 @@ export default function BasicSettings() {
 
             <button
               onClick={saveImageToStorage}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md dark:shadow-none"
+              className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md dark:shadow-none transition-all"
             >
               Sačuvaj sliku
             </button>
@@ -304,17 +319,17 @@ export default function BasicSettings() {
 
               {/* EMAIL */}
               <div className="flex flex-col gap-2">
-                <label className="font-semibold text-gray-700">Email</label>
+                <label className="font-semibold text-gray-800 dark:text-gray-200">Email</label>
                 <input
                   readOnly
                   value={email}
-                  className="p-3 rounded-lg bg-gray-100 dark:bg-[#1a1a1a] border border-gray-300 dark:border-white/10 text-gray-600 dark:text-gray-300"
+                  className="p-3 rounded-lg bg-gray-100 dark:bg-[#1a1a1a] shadow-inner border border-gray-300 dark:border-white/10 text-gray-600 dark:text-gray-300"
                 />
               </div>
 
               <button
                 onClick={handleSave}
-                className="p-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg"
+                className="p-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-all w-full mt-3 text-sm"
               >
                 Sačuvaj promjene
               </button>
@@ -322,7 +337,6 @@ export default function BasicSettings() {
             </div>
           )}
         </div>
-      </div>
     </div>
   );
 }
@@ -330,12 +344,12 @@ export default function BasicSettings() {
 function Section({ label, value, onChange, type = "text" }) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="font-medium text-gray-700">{label}</label>
+      <label className="font-medium text-sm text-gray-800 dark:text-gray-200">{label}</label>
       <input
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="p-3 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-400 outline-none"
+        className="p-2.5 text-sm rounded-md border border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-[#1a1a1a] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none shadow"
       />
     </div>
   );
