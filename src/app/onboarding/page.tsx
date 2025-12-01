@@ -90,14 +90,14 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-[#e7f3ff] to-white p-6">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-[#e7f3ff] to-white dark:from-[#0d1117] dark:to-[#0b0f16] p-6">
       <div className="w-full max-w-md text-center">
 
         {/* -------------------- HEADER -------------------- */}
-        <h1 className="text-3xl font-bold text-[#1089d3] mb-4">
+        <h1 className="text-3xl font-bold text-[#1089d3] dark:text-[#4da8ff] mb-4">
           Dobrodošli na JobSyc!
         </h1>
-        <p className="text-gray-600 mb-8">
+        <p className="text-gray-600 dark:text-gray-300 mb-8">
           Kratki tutorijal kako funkcioniše platforma 👇
         </p>
 
@@ -119,7 +119,7 @@ function SlideIntro({ next }) {
   return (
     <div>
       <h2 className="text-xl font-semibold mb-4">Kako funkcioniše JobSyc?</h2>
-      <p className="text-gray-600 mb-6 leading-relaxed">
+      <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
         JobSyc ti prikazuje profile koji najviše odgovaraju tvom profilu — koristeći
         industriju, lokaciju i način rada.
       </p>
@@ -140,7 +140,7 @@ function SlideHowSwipe({ next, prev }) {
       <h2 className="text-xl font-semibold mb-4">Kako listati profile?</h2>
 
       <div className="w-64 h-80 relative mb-6">
-        <div className="demo-card-animate absolute w-full h-full bg-white rounded-2xl shadow-xl p-5">
+        <div className="demo-card-animate absolute w-full h-full bg-white dark:bg-[#1b2028] dark:border-white/10 rounded-2xl shadow-xl p-5">
           <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-3">
             <Image src="/tutorial/demo_user_1.png" alt="demo" width={90} height={90} />
           </div>
@@ -150,7 +150,7 @@ function SlideHowSwipe({ next, prev }) {
         </div>
       </div>
 
-      <p className="text-gray-600 mb-6">
+      <p className="text-gray-600 dark:text-gray-300 mb-6">
         Prevuci lijevo da preskočiš, desno da lajkuješ, gore za superlike 🚀
       </p>
 
@@ -225,7 +225,7 @@ function SlideDone() {
     <div>
       <h2 className="text-xl font-bold mb-4">Spremni ste!</h2>
 
-      <p className="text-gray-600 mb-6">
+      <p className="text-gray-600 dark:text-gray-300 mb-6">
         Sada možete početi koristiti JobSyc i otkriti najbolje prilike!
       </p>
 
@@ -241,7 +241,7 @@ function SlideDone() {
 // -------------------------------------
 function DemoCard({ profile }) {
   return (
-    <div className="w-56 bg-white shadow-lg rounded-xl p-4">
+    <div className="w-56 bg-white dark:bg-[#1a1f27] shadow-lg rounded-xl p-4 border dark:border-white/10">
       <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-3">
         <Image
           src={profile.profile_picture_url || profile.logo_url}
@@ -251,21 +251,21 @@ function DemoCard({ profile }) {
         />
       </div>
 
-      <h3 className="font-semibold text-center">
+      <h3 className="font-semibold text-center dark:text-white">
         {profile.type === "company"
           ? profile.company_name
           : `${profile.first_name} ${profile.last_name}`}
       </h3>
 
-      <p className="text-gray-500 text-center text-sm mt-1">
+      <p className="text-gray-500 dark:text-gray-400 text-center text-sm mt-1">
         {profile.industry_category[0]}
       </p>
 
-      <p className="text-blue-600 text-center font-semibold mt-2">
+      <p className="text-blue-600 dark:text-blue-400 text-center font-semibold mt-2">
         Match {profile.match_score}%
       </p>
 
-      <p className="text-gray-400 text-xs mt-3 text-center">{profile.bio}</p>
+      <p className="text-gray-400 dark:text-gray-500 text-xs mt-3 text-center">{profile.bio}</p>
     </div>
   );
 }
@@ -279,10 +279,10 @@ const baseBtn = `
 
 const primaryBtn = `
   ${baseBtn}
-  bg-[#1089d3] text-white hover:bg-[#0a6ba1]
+  bg-[#1089d3] text-white hover:bg-[#0a6ba1] dark:bg-[#0e6fb5] dark:hover:bg-[#0a5b95]
 `;
 
 const secondaryBtn = `
   ${baseBtn}
-  bg-gray-200 text-gray-700 hover:bg-gray-300
+  bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-[#2a2f36] dark:text-gray-200 dark:hover:bg-[#3a414b]
 `;

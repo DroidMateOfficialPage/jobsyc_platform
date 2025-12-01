@@ -34,25 +34,27 @@ const Form = () => {
     window.location.href = "/home";
   };
 
-  // 🔹 Google OAuth login
-  const handleGoogleLogin = async () => {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
-    if (error) setErrorMsg("❌ Greška prilikom Google prijave.");
-    setLoading(false);
-  };
+  const redirectTo = `${process.env.NEXT_PUBLIC_SITE_URL}/register_candidate`;
 
-  // 🔹 LinkedIn OAuth login
-  const handleLinkedInLogin = async () => {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "linkedin_oidc",
-    });
-    if (error) setErrorMsg("❌ Greška prilikom LinkedIn prijave.");
-    setLoading(false);
-  };
+const handleGoogleLogin = async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo,
+    },
+  });
+  if (error) setErrorMsg("❌ Greška prilikom Google prijave.");
+};
+
+const handleLinkedInLogin = async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "linkedin_oidc",
+    options: {
+      redirectTo,
+    },
+  });
+  if (error) setErrorMsg("❌ Greška prilikom LinkedIn prijave.");
+};
 
   // // 🔹 Facebook OAuth login
   // const handleFacebookLogin = async () => {
