@@ -15,7 +15,7 @@ export default function BasicSettings() {
 
   // Company fields
   const [brandName, setBrandName] = useState("");       // users.full_name
-  const [legalName, setLegalName] = useState("");       // company_profile.legal_name
+  const [legalName, setLegalName] = useState("");       // company_profile.legal_full_name
   const [jib, setJib] = useState("");
   const [pib, setPib] = useState("");
   const [foundedYear, setFoundedYear] = useState("");
@@ -26,6 +26,57 @@ export default function BasicSettings() {
   const [profileType, setProfileType] = useState("");
 
   const [loading, setLoading] = useState(true);
+
+  // Image upload states
+  const [imageFile, setImageFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImageFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
+  };
+
+  const saveImageToStorage = async () => {
+    if (!imageFile) return;
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const bucket = profileType === "company" ? "logotypes" : "profile_pictures";
+    const fileName = `${user.id}.png`;
+
+    const { error: uploadError } = await supabase.storage
+      .from(bucket)
+      .upload(fileName, imageFile, { upsert: true });
+
+    if (uploadError) {
+      console.error("Upload error:", uploadError);
+      alert("Greška pri uploadu slike.");
+      return;
+    }
+
+    const { data: publicURL } = supabase.storage
+      .from(bucket)
+      .getPublicUrl(fileName);
+
+    const url = publicURL.publicUrl;
+
+    if (profileType === "company") {
+      await supabase
+        .from("company_profile")
+        .update({ logo_url: url })
+        .eq("user_id", user.id);
+    } else {
+      await supabase
+        .from("candidate_profile")
+        .update({ profile_picture_url: url })
+        .eq("user_id", user.id);
+    }
+
+    alert("✔ Profilna slika uspješno ažurirana!");
+  };
 
   useEffect(() => setMounted(true), []);
 
@@ -71,12 +122,12 @@ export default function BasicSettings() {
 
         const { data: comp } = await supabase
           .from("company_profile")
-          .select("legal_name, jib, pib, founded_year")
+          .select("legal_full_name, jib, pib, founded_year")
           .eq("user_id", user.id)
           .single();
 
         if (comp) {
-          setLegalName(comp.legal_name || "");
+          setLegalName(comp.legal_full_name || "");
           setJib(comp.jib || "");
           setPib(comp.pib || "");
           setFoundedYear(comp.founded_year || "");
@@ -121,7 +172,7 @@ export default function BasicSettings() {
 
       await supabase.from("company_profile")
         .update({
-          legal_name: legalName,
+          legal_full_name: legalName,
           jib: jib,
           pib: pib,
           founded_year: foundedYear,
@@ -133,20 +184,20 @@ export default function BasicSettings() {
   };
 
   if (!mounted) return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50 dark:bg-[#0d0d0d]">
       <SidebarLeft />
     </div>
   );
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50 dark:bg-[#0d0d0d]">
       <SidebarLeft />
 
       <div className="flex w-full ml-[250px]">
         <SettingsSidebar />
 
-        <div className="flex-1 p-10 max-w-2xl">
-          <h1 className="text-2xl font-bold mb-8 text-gray-800">
+        <div className="flex-1 p-10 max-w-2xl bg-white dark:bg-[#0f0f0f] rounded-xl shadow-md dark:shadow-none border border-gray-200 dark:border-white/10">
+          <h1 className="text-2xl font-bold mb-8 text-gray-800 dark:text-white">
             Osnovni podaci
           </h1>
 
@@ -154,6 +205,30 @@ export default function BasicSettings() {
             <p>Učitavanje...</p>
           ) : (
             <div className="flex flex-col gap-8">
+
+
+          <div className="mb-8 flex flex-col items-center gap-4">
+            {previewUrl && (
+              <img
+                src={previewUrl}
+                className="w-32 h-32 rounded-full object-cover border border-gray-300 dark:border-white/20"
+              />
+            )}
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="text-sm"
+            />
+
+            <button
+              onClick={saveImageToStorage}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md dark:shadow-none"
+            >
+              Sačuvaj sliku
+            </button>
+          </div>
 
               {/* CANDIDATE UI */}
               {profileType === "candidate" && (
@@ -233,7 +308,7 @@ export default function BasicSettings() {
                 <input
                   readOnly
                   value={email}
-                  className="p-3 rounded-lg bg-gray-100 border text-gray-600"
+                  className="p-3 rounded-lg bg-gray-100 dark:bg-[#1a1a1a] border border-gray-300 dark:border-white/10 text-gray-600 dark:text-gray-300"
                 />
               </div>
 
@@ -260,7 +335,7 @@ function Section({ label, value, onChange, type = "text" }) {
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="p-3 rounded-lg border focus:ring-2 focus:ring-blue-400 outline-none"
+        className="p-3 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-400 outline-none"
       />
     </div>
   );
