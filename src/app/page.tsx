@@ -71,6 +71,13 @@ export default function Home() {
 
   if (loading) return <div>Loading...</div>;
 
+  if (user) {
+    if (typeof window !== "undefined") {
+      window.location.href = "/home";
+    }
+    return null;
+  }
+
   if (!user) {
     return (
       <div style={styles.container}>
@@ -84,21 +91,6 @@ export default function Home() {
         </div>
       </div>
     );
-  }
-
-  if (profile.completeness >= 70) {
-    if (typeof window !== "undefined") window.location.href = "/home";
-    return null;
-  }
-
-  if (profile.type === "candidate") {
-    if (typeof window !== "undefined") window.location.href = "/register_candidate";
-    return null;
-  }
-
-  if (profile.type === "company") {
-    if (typeof window !== "undefined") window.location.href = "/register_company";
-    return null;
   }
 
   // Optionally, fallback UI if profile.type is null and not loading
