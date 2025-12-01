@@ -34,7 +34,7 @@ const Form = () => {
     window.location.href = "/home";
   };
 
-  const redirectTo = `${process.env.NEXT_PUBLIC_SITE_URL}/register_candidate`;
+  const redirectTo = `https://app.jobsyc.co/register_candidate`;
 
 const handleGoogleLogin = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
