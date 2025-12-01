@@ -34,7 +34,7 @@ const Form = () => {
     window.location.href = "/home";
   };
 
-  const redirectTo = `https://app.jobsyc.co/auth/callback`;
+  const redirectTo = `https://app.jobsyc.co/auth/callbackprovider`;
 
   const handleGoogleLogin = async () => {
     setErrorMsg(null);
