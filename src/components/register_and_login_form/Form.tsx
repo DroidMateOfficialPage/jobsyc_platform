@@ -72,14 +72,14 @@ const Form = () => {
         <form onSubmit={handleSubmit} className="form">
           <input
             required
-            className="input"
+            className="input dark:text-blue-400"
             type="email"
             name="email"
             placeholder="E-mail"
           />
           <input
             required
-            className="input"
+            className="input dark:text-blue-400"
             type="password"
             name="password"
             placeholder="Lozinka"
