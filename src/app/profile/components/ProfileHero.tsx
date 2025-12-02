@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import EditSection from "./EditSection";
 
 interface ProfileHeroProps {
   profile: any;
@@ -11,15 +13,19 @@ export default function ProfileHero({ profile }: ProfileHeroProps) {
 
   const isCompany = profile.profile_type === "company";
   const isOwnProfile = profile.is_self || profile.isOwner;
+  const router = useRouter();
 
   return (
     <div className="relative w-full rounded-2xl overflow-hidden bg-gradient-to-b from-[#1089D3] to-[#0B6CA8] shadow-xl">
       
       {/* COVER IMAGE */}
-      <div className="w-full h-20 md:h-26 bg-gradient-to-r from-[#1089D3] to-[#0B6CA8] opacity-70" />
+      {/* <div className="w-full h-28 md:h-36 bg-gradient-to-r from-[#1089D3] to-[#0B6CA8] opacity-70" /> */}
+      <div className="p-2">
 
+      <EditSection profile={profile}  />
+      </div>
       {/* AVATAR + INFO */}
-      <div className="relative left-0 right-0 -top-5 flex flex-col md:flex-row items-center md:items-start justify-center gap-8 px-6 text-center md:text-left">
+      <div className="relative left-0 right-0 -top-20 flex flex-col md:flex-row items-center md:items-start justify-center gap-8 px-6 text-center md:text-left p-5">
 
         {/* LEFT COLUMN — AVATAR */}
         <div className="flex flex-col items-center md:items-start">
@@ -80,10 +86,13 @@ export default function ProfileHero({ profile }: ProfileHeroProps) {
             )}
           </div>
         </div>
+
+        
       </div>
 
       {/* Spacer to push content down under avatar */}
       <div className="h-10" />
+
     </div>
   );
 }

@@ -8,6 +8,8 @@ const SidebarLeft = dynamic(() => import("@/components/main_layout/SidebarLeft")
   ssr: false,
 });
 
+import EditSection from "./components/EditSection";
+
 import ProfileHero from "./components/ProfileHero";
 import StatsBar from "./components/StatsBar";
 import AboutSection from "./components/AboutSection";
@@ -103,11 +105,11 @@ export default function ProfilePage() {
       >
         <ProfileHero profile={profile} />
         <StatsBar profile={profile} />
+        <BadgesRow badges={profile?.badges || []} />
         <AboutSection profile={profile} />
         <SkillsMatrix skills={profile?.skills || []} />
         <ExperienceSection experience={profile?.experience || []} />
         <PortfolioGallery projects={profile?.projects || []} />
-        <BadgesRow badges={profile?.badges || []} />
         <SocialLinks links={profile?.links || []} />
       </div>
     </div>
