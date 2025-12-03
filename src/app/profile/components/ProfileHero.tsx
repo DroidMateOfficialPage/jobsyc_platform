@@ -23,6 +23,7 @@ export default function ProfileHero({ profile }: ProfileHeroProps) {
       <div className="p-2">
 
       <EditSection profile={profile}  />
+      
       </div>
       {/* AVATAR + INFO */}
       <div className="relative left-0 right-0 -top-20 flex flex-col md:flex-row items-center md:items-start justify-center gap-8 px-6 text-center md:text-left p-5">

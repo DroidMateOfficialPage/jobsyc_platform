@@ -8,7 +8,8 @@ const SidebarLeft = dynamic(() => import("@/components/main_layout/SidebarLeft")
   ssr: false,
 });
 
-import EditSection from "./components/EditSection";
+// import EditSection from "./components/EditSection";
+
 
 import ProfileHero from "./components/ProfileHero";
 import StatsBar from "./components/StatsBar";

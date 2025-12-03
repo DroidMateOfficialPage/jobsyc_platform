@@ -269,6 +269,8 @@ const [selectedIndustries, setSelectedIndustries] = useState<{ label: string; ca
             
             experience: data.experience || "",
             skills: data.skills || "",
+            idustries: data.industries || [],
+            industry_category: data.industry_category || [],
       });
 
       setCurrentImageUrl(
@@ -499,7 +501,7 @@ if (
         </button>
       </div>
 
-      <Dialog open={open} onClose={() => setOpen(false)} className="relative z-50">
+      <Dialog open={!!open} onClose={() => setOpen(false)} className="relative z-50">
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm overflow-y-auto flex items-start justify-center p-6">
           <Dialog.Panel
             className="
@@ -536,121 +538,19 @@ if (
               >
                 Osnovni podaci
               </button>
+
               <button
-                className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${activeTab === "experience" && (
-  <div className="flex flex-col gap-4">
-
-    {/* RADNO ISKUSTVO */}
-    <div className="flex flex-col gap-1">
-      <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-        Radno iskustvo
-      </label>
-      <textarea
-        className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-white/10 
-                   bg-white dark:bg-[#0f0f0f] text-gray-900 dark:text-white 
-                   focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-        placeholder="Ukratko opišite prethodna radna iskustva..."
-        rows={5}
-        value={basicData.experience}
-        onChange={(e) =>
-          setBasicData((prev) => ({
-            ...prev,
-            experience: e.target.value,
-          }))
-        }
-      />
-    </div>
-
-    {/* INDUSTRIJA */}
-<div className="flex flex-col gap-1">
-  <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-    Industrija
-  </label>
-
-  <div className="relative">
-    <input
-      type="text"
-      placeholder="Pretraži industrije..."
-      className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-white/10
-                 bg-white dark:bg-[#0f0f0f] text-gray-900 dark:text-white text-sm"
-      onChange={(e) => {
-        const q = e.target.value.toLowerCase();
-        setIndustriesList(prev =>
-          prev.filter(ind => ind.label.toLowerCase().includes(q))
-        );
-      }}
-    />
-
-    {/* Dropdown */}
-    <div className="mt-2 max-h-48 overflow-y-auto bg-white dark:bg-[#111] border border-gray-200 dark:border-white/10 rounded-lg shadow-lg">
-      {industriesList.map((ind, idx) => (
-        <button
-          key={idx}
-          type="button"
-          onClick={() => {
-            if (!selectedIndustries.find(s => s.label === ind.label)) {
-              setSelectedIndustries(prev => [...prev, ind]);
-            }
-          }}
-          className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-[#222]
-                     text-gray-900 dark:text-gray-100 text-sm"
-        >
-          {ind.label}
-        </button>
-      ))}
-    </div>
-  </div>
-
-  {/* Selected items list */}
-  <div className="flex flex-wrap gap-2 mt-2">
-    {selectedIndustries.map((ind, i) => (
-      <span
-        key={i}
-        className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200 rounded-full text-xs flex items-center gap-2"
-      >
-        {ind.label}
-        <button
-          className="text-red-500"
-          onClick={() =>
-            setSelectedIndustries(prev =>
-              prev.filter(p => p.label !== ind.label)
-            )
-          }
-        >
-          ✕
-        </button>
-      </span>
-    ))}
-  </div>
-</div>
-
-    {/* VJEŠTINE */}
-    <div className="flex flex-col gap-1">
-      <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-        Vještine
-      </label>
-      <textarea
-        className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-white/10 
-                   bg-white dark:bg-[#0f0f0f] text-gray-900 dark:text-white 
-                   focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-        placeholder="Npr: React, UI/UX, Project Management..."
-        rows={3}
-        value={basicData.skills}
-        onChange={(e) =>
-          setBasicData((prev) => ({
-            ...prev,
-            skills: e.target.value,
-          }))
-        }
-      />
-    </div>
-
-  </div>
-)}`}
+                className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                    activeTab === "experience"
+                    ? "px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-black dark:text-white shadow-lg border border-blue-500"
+                        : "px-4 py-2 rounded-full text-sm font-medium bg-gray-200 dark:bg-[#2b2b2b] text-gray-800 dark:text-black border border-gray-300 dark:border-white/20 hover:bg-gray-300 dark:hover:bg-[#3a3a3a]"
+                }`}
                 onClick={() => setActiveTab("experience")}
               >
                 Iskustvo
               </button>
+
+              
               <button
                 className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
                   activeTab === "social"
@@ -839,6 +739,13 @@ if (
                 </div>
               </div>
             )}
+
+            {/* EXPERIENCE TAB */}
+            {activeTab === "experience" && isCandidate && (
+  <div className="flex flex-col gap-4">
+    </div>
+)}
+
 
             {/* SOCIAL TAB */}
             {activeTab === "social" && (
