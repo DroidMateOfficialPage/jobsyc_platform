@@ -74,9 +74,9 @@ export default function JobDetailsPage() {
   if (!job) return <p className="text-white p-6">Učitavanje...</p>;
 
   return (
-    <div className="flex min-h-screen bg-white text-black dark:bg-[#0B0E11] dark:text-white transition-colors duration-300">
+    <div className="flex h-screen overflow-y-auto bg-white dark:bg-[#0B0E11] text-black dark:text-white transition-colors duration-300">
       {/* LEFT SIDEBAR */}
-      <div className="hidden lg:block w-[280px] border-r border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#0B0E11]/40 backdrop-blur-xl ">
+      <div className="hidden lg:block w-[280px] border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#0B0E11]/40 backdrop-blur-xl ">
         <SidebarLeft />
       </div>
 
@@ -84,7 +84,7 @@ export default function JobDetailsPage() {
       <div className="flex-1 px-6 py-10 max-w-3xl mx-auto transition-all duration-300 mb-8 mt-8">
 
         {/* HEADER */}
-        <div className="flex items-center gap-5 mb-10 p-5 rounded-2xl bg-gray-100/60 dark:bg-white/5 border border-gray-200 dark:border-white/10 shadow-md">
+        <div className="flex items-center gap-5 mb-10 p-5 rounded-2xl bg-gray-100 dark:bg-[#111418] border border-gray-200 dark:border-gray-700 shadow-md">
           <img
             src={job.company.logo_url}
             alt="logo"
@@ -149,24 +149,24 @@ export default function JobDetailsPage() {
         </div>
 
         {/* DESCRIPTION */}
-        <div className="p-6 rounded-2xl mb-10 leading-relaxed bg-gray-100/70 dark:bg-white/5 border border-gray-300 dark:border-white/10 shadow-lg backdrop-blur-md mb-8 mt-8">
+        <div className="p-6 rounded-2xl mb-10 leading-relaxed bg-gray-100 dark:bg-[#111418] border border-gray-300 dark:border-gray-700 shadow-lg backdrop-blur-md mb-8 mt-8">
           <h2 className="text-2xl font-semibold mb-3">Opis posla</h2>
-          <p className="text-gray-300 whitespace-pre-line">
+          <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">
             {job.description}
           </p>
         </div>
 
         {/* COMPANY INFO */}
-        <div className="p-6 rounded-2xl leading-relaxed bg-gray-100/70 dark:bg-white/5 border border-gray-300 dark:border-white/10 shadow-lg backdrop-blur-md mb-8 mt-8">
+        <div className="p-6 rounded-2xl leading-relaxed bg-gray-100 dark:bg-[#111418] border border-gray-300 dark:border-gray-700 shadow-lg backdrop-blur-md mb-8 mt-8">
           <h2 className="text-2xl font-semibold mb-3">O kompaniji</h2>
 
           {job.company.bio && (
-            <p className="text-gray-300 mb-4 whitespace-pre-line">
+            <p className="text-gray-700 dark:text-gray-300 mb-4 whitespace-pre-line">
               {job.company.bio}
             </p>
           )}
 
-          <div className="text-gray-400 space-y-2">
+          <div className="text-gray-700 dark:text-gray-300 space-y-2">
             <p><strong>🌐 Website:</strong> {job.company.website || "N/A"}</p>
             <p>
               <strong>📍 Lokacija:</strong> {job.company.location_city},{" "}
