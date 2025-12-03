@@ -22,7 +22,7 @@ export default function ProfileHero({ profile }: ProfileHeroProps) {
       {/* <div className="w-full h-28 md:h-36 bg-gradient-to-r from-[#1089D3] to-[#0B6CA8] opacity-70" /> */}
       <div className="p-2">
 
-      <EditSection profile={profile}  />
+      {/* <EditSection profile={profile}  /> */}
       
       </div>
       {/* AVATAR + INFO */}

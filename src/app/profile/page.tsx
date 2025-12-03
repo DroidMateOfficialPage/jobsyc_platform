@@ -8,7 +8,7 @@ const SidebarLeft = dynamic(() => import("@/components/main_layout/SidebarLeft")
   ssr: false,
 });
 
-// import EditSection from "./components/EditSection";
+import EditSection from "./components/EditSection";
 
 
 import ProfileHero from "./components/ProfileHero";
@@ -24,6 +24,8 @@ export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,6 +108,8 @@ export default function ProfilePage() {
       >
         <ProfileHero profile={profile} />
         <StatsBar profile={profile} />
+
+        <EditSection profile={profile} />
         <BadgesRow badges={profile?.badges || []} />
         <AboutSection profile={profile} />
         <SkillsMatrix skills={profile?.skills || []} />
