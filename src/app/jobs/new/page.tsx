@@ -16,6 +16,8 @@ export default function NewJobPage() {
   const [employmentType, setEmploymentType] = useState("");
   const [workMode, setWorkMode] = useState("");
   const [salary, setSalary] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [industries, setIndustries] = useState([]);
 
   // LOCATION STATES
   const [locationQuery, setLocationQuery] = useState("");
@@ -58,6 +60,7 @@ export default function NewJobPage() {
     loadJson("employment_type.json", setEmploymentTypes);
     loadJson("location_industry_standard.json", setWorkModes);
     loadJson("salary.json", setSalaryRanges);
+    loadJson("industry.json", setIndustries);
   }, []);
 
   // LOAD GOOGLE MAPS API
@@ -143,7 +146,7 @@ export default function NewJobPage() {
         employment_type: [employmentType],
         work_mode: [workMode],
         salary_range: salary,
-        industry: [],
+        industry: [industry],
         location_city: locationCity,
         location_country: locationCountry,
       },
@@ -177,9 +180,9 @@ export default function NewJobPage() {
           ) : (
             <div className="flex flex-col gap-6">
 
-              <InputField label="Naslov oglasa" value={title} onChange={setTitle} />
+              <InputField label="Naslov oglasa" value={title} onChange={setTitle} maxLength={100} />
 
-              <InputField label="Opis" value={description} onChange={setDescription} textarea />
+              <InputField label="Opis" value={description} onChange={setDescription} textarea maxLength={250} />
 
               {/* EMPLOYMENT TYPE */}
               <SelectField
@@ -203,6 +206,13 @@ export default function NewJobPage() {
                 value={salary}
                 onChange={setSalary}
                 options={salaryRanges}
+              />
+
+              <SelectField
+                label="Industrija"
+                value={industry}
+                onChange={setIndustry}
+                options={industries}
               />
 
               {/* LOCATION FIELD */}
@@ -253,26 +263,38 @@ export default function NewJobPage() {
 // ------------------------
 // INPUT FIELD COMPONENT
 // ------------------------
-function InputField({ label, value, onChange, placeholder = "", textarea = false }) {
+function InputField({ label, value, onChange, placeholder = "", textarea = false, maxLength }) {
   return (
     <div className="flex flex-col gap-2">
       <label className="font-medium text-gray-700 dark:text-gray-300">{label}</label>
 
-      {textarea ? (
-        <textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          className="p-3 h-32 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-400 outline-none"
-        />
-      ) : (
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          className="p-3 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-400 outline-none"
-        />
-      )}
+      <div className="relative flex flex-col">
+        {textarea ? (
+          <textarea
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            maxLength={maxLength}
+            className="p-3 h-32 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-[#1a1a1a] 
+                       text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-400 outline-none"
+          />
+        ) : (
+          <input
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            maxLength={maxLength}
+            className="p-3 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-[#1a1a1a] 
+                       text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-400 outline-none"
+          />
+        )}
+
+        {maxLength && (
+          <div className="text-xs text-gray-500 dark:text-gray-400 ml-auto mt-1">
+            {value.length}/{maxLength}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

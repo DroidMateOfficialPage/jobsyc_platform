@@ -129,6 +129,14 @@ export default function HomePage() {
               badge_url: k.badge_url || [],
             }));
 
+      // PRIORITIZE JOB LISTINGS FIRST
+      // Items with "title" or "job_type" are considered job listings
+      mapped.sort((a, b) => {
+        const aIsJob = a.title || a.job_type?.length > 0;
+        const bIsJob = b.title || b.job_type?.length > 0;
+        return (bIsJob ? 1 : 0) - (aIsJob ? 1 : 0);
+      });
+
       // filter by saved/liked/passed/superliked profiles
       const savedList = currentUserProfile?.saved_profiles || [];
       const likedList = currentUserProfile?.liked || [];
