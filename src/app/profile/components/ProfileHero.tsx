@@ -26,7 +26,7 @@ export default function ProfileHero({ profile }: ProfileHeroProps) {
       
       </div>
       {/* AVATAR + INFO */}
-      <div className="relative left-0 right-0 -top-20 flex flex-col md:flex-row items-center md:items-start justify-center gap-8 px-6 text-center md:text-left p-5">
+      <div className="relative left-0 right-0 top-0 flex flex-col md:flex-row items-center md:items-start justify-center gap-8 px-6 text-center md:text-left p-5">
 
         {/* LEFT COLUMN — AVATAR */}
         <div className="flex flex-col items-center md:items-start">
