@@ -204,7 +204,7 @@ const CardWrapper = styled.div`
   /* Mobile phones under 420px */
   @media (max-width: 420px) {
     width: 87vw;
-    height: 90vh;
+    height: 80vh;
     max-width: 360px;
     max-height: 500px;
     border-radius: 24px;
@@ -212,7 +212,7 @@ const CardWrapper = styled.div`
 
   @media (max-width: 360px) {
     width: 82vw;
-    height: 90vh;
+    height: 80vh;
     border-radius: 20px;
   }
 `;
