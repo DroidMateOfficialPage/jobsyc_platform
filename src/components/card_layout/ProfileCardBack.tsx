@@ -69,6 +69,22 @@ const BackWrapper = styled.div`
   overflow-y: auto;
   position: relative;
   backdrop-filter: blur(6px);
+  
+
+  /* Mobile phones under 420px */
+  @media (max-width: 420px) {
+    width: 87vw;
+    height: 90vh;
+    max-width: 360px;
+    max-height: 500px;
+    border-radius: 24px;
+  }
+
+  @media (max-width: 360px) {
+    width: 82vw;
+    height: 90vh;
+    border-radius: 20px;
+  }
 
   &::-webkit-scrollbar {
     width: 6px;

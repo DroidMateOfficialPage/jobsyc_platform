@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
 
-export default function SwipeableCard({ profile, card, onSwipe, index }) {
+export default function SwipeableCard({ profile, card, onSwipe, index, disableSwipe = false }) {
   const cardRef = useRef(null);
 
   // Držimo trenutnu poziciju i rotaciju
@@ -129,14 +129,51 @@ const handleEnd = () => {
         transition: isDragging ? "none" : "0.3s ease",
       }}
       onClick={(e) => e.stopPropagation()}
-      onMouseDown={handleStart}
-      onMouseMove={handleMove}
-      onMouseUp={handleEnd}
-      onMouseLeave={() => isDragging && handleEnd()}
-      onTouchStart={handleStart}
-      onTouchMove={handleMove}
-      onTouchEnd={handleEnd}
+      {...(!disableSwipe && {
+        onMouseDown: handleStart,
+        onMouseMove: handleMove,
+        onMouseUp: handleEnd,
+        onMouseLeave: isDragging ? handleEnd : undefined,
+        onTouchStart: handleStart,
+        onTouchMove: handleMove,
+        onTouchEnd: handleEnd,
+      })}
     >
+      {/* SWIPE OVERLAY */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            badge === "nope"
+              ? "rgba(255,0,0,0.12)"
+              : badge === "like"
+              ? "rgba(0,255,0,0.12)"
+              : badge === "super"
+              ? "rgba(0,100,255,0.12)"
+              : "transparent",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          pointerEvents: "none",
+          transition: "background 0.2s ease",
+          fontSize: "64px",
+          fontWeight: "bold",
+          color:
+            badge === "nope"
+              ? "rgba(255,0,0,0.35)"
+              : badge === "like"
+              ? "rgba(0,180,0,0.35)"
+              : badge === "super"
+              ? "rgba(0,100,255,0.35)"
+              : "transparent",
+        }}
+      >
+        {badge === "nope" && "✖"}
+        {badge === "like" && "✔"}
+        {badge === "super" && "★"}
+      </div>
+
       {/* BADGES */}
       {badge === "like" && <BadgeLike>LIKE ✔️</BadgeLike>}
       {badge === "nope" && <BadgeNope>NOPE ❌</BadgeNope>}
@@ -163,6 +200,21 @@ const CardWrapper = styled.div`
   box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
   overflow: hidden;
   cursor: grab;
+
+  /* Mobile phones under 420px */
+  @media (max-width: 420px) {
+    width: 87vw;
+    height: 90vh;
+    max-width: 360px;
+    max-height: 500px;
+    border-radius: 24px;
+  }
+
+  @media (max-width: 360px) {
+    width: 82vw;
+    height: 90vh;
+    border-radius: 20px;
+  }
 `;
 
 const BadgeLike = styled.div`
