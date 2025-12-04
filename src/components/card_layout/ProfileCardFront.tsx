@@ -351,7 +351,7 @@ const Card = styled.div`
   width: 380px;
   height: 520px;
   max-width: 100%;
-  border-radius: 32px;
+  border-radius: 20px;
   background: #ffffff;
   @media (prefers-color-scheme: dark) {
     background: #111111;
@@ -369,15 +369,15 @@ const Card = styled.div`
   /* Mobile phones under 420px */
   @media (max-width: 420px) {
     width: 87vw;
-    height: 80vh;
+    height: 70vh;
     max-width: 360px;
     max-height: 500px;
-    border-radius: 24px;
+    border-radius: 20px;
   }
 
   @media (max-width: 360px) {
     width: 82vw;
-    height: 80vh;
+    height: 65vh;
     border-radius: 20px;
   }
 `;

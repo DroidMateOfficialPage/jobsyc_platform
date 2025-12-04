@@ -4,6 +4,18 @@ import { useRef, useState } from "react";
 import styled from "styled-components";
 
 export default function SwipeableCard({ profile, card, onSwipe, index, disableSwipe = false }) {
+// DISABLE SWIPE MODE (back side of card)
+if (disableSwipe) {
+  return (
+  <div
+    className="w-full h-full overflow-y-scroll touch-pan-y"
+    style={{ borderRadius: 18 }}
+  >
+    {card}
+  </div>
+);
+}
+
   const cardRef = useRef(null);
 
   // Držimo trenutnu poziciju i rotaciju
@@ -195,7 +207,7 @@ const CardWrapper = styled.div`
   height: 520px;
   top: 0;
   left: 0;
-  border-radius: 18px;
+  border-radius: 20px;
   background: white;
   box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
   overflow: hidden;
@@ -204,7 +216,7 @@ const CardWrapper = styled.div`
   /* Mobile phones under 420px */
   @media (max-width: 420px) {
     width: 87vw;
-    height: 80vh;
+    height: 70vh;
     max-width: 360px;
     max-height: 500px;
     border-radius: 24px;
@@ -212,7 +224,7 @@ const CardWrapper = styled.div`
 
   @media (max-width: 360px) {
     width: 82vw;
-    height: 80vh;
+    height: 65vh;
     border-radius: 20px;
   }
 `;

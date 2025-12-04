@@ -74,7 +74,7 @@ const BackWrapper = styled.div`
   /* Mobile phones under 420px */
   @media (max-width: 420px) {
     width: 87vw;
-    height: 80vh;
+    height: 70vh;
     max-width: 360px;
     max-height: 500px;
     border-radius: 24px;
@@ -82,7 +82,7 @@ const BackWrapper = styled.div`
 
   @media (max-width: 360px) {
     width: 82vw;
-    height: 80vh;
+    height: 65vh;
     border-radius: 20px;
   }
 
