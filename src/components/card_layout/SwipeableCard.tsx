@@ -213,9 +213,16 @@ const CardWrapper = styled.div`
   overflow: hidden;
   cursor: grab;
 
+
+  @media (prefers-color-scheme: dark) {
+    background: #111111;
+    box-shadow:
+      0 18px 40px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.06);
+
   /* Mobile phones under 420px */
   @media (max-width: 420px) {
-    width: 87vw;
+    width: 77vw;
     height: 70vh;
     max-width: 360px;
     max-height: 500px;
@@ -223,7 +230,7 @@ const CardWrapper = styled.div`
   }
 
   @media (max-width: 360px) {
-    width: 82vw;
+    width: 72vw;
     height: 65vh;
     border-radius: 20px;
   }

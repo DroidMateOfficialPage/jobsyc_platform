@@ -64,7 +64,7 @@ const BackWrapper = styled.div`
   height: 520px;
   padding: 22px;
   background: linear-gradient(180deg, #ffffff 0%, #f6f9fc 100%);
-  border-radius: 24px;
+  border-radius: 20px;
   box-shadow: 0 12px 30px rgba(0,0,0,0.1);
   overflow-y: auto;
   position: relative;
@@ -73,15 +73,15 @@ const BackWrapper = styled.div`
 
   /* Mobile phones under 420px */
   @media (max-width: 420px) {
-    width: 87vw;
+    width: 77vw;
     height: 70vh;
     max-width: 360px;
     max-height: 500px;
-    border-radius: 24px;
+    border-radius: 20px;
   }
 
   @media (max-width: 360px) {
-    width: 82vw;
+    width: 72vw;
     height: 65vh;
     border-radius: 20px;
   }

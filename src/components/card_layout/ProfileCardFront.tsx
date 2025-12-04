@@ -368,7 +368,7 @@ const Card = styled.div`
 
   /* Mobile phones under 420px */
   @media (max-width: 420px) {
-    width: 87vw;
+    width: 77vw;
     height: 70vh;
     max-width: 360px;
     max-height: 500px;
@@ -376,7 +376,7 @@ const Card = styled.div`
   }
 
   @media (max-width: 360px) {
-    width: 82vw;
+    width: 72vw;
     height: 65vh;
     border-radius: 20px;
   }
