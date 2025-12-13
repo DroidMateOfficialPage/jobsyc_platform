@@ -371,7 +371,7 @@ const Card = styled.div`
     width: 77vw;
     height: 70vh;
     max-width: 360px;
-    max-height: 500px;
+    max-height: 440px;
     border-radius: 20px;
   }
 

@@ -233,7 +233,7 @@ const CardWrapper = styled.div`
     width: 77vw;
     height: 70vh;
     max-width: 360px;
-    max-height: 450px;
+    max-height: 440px;
     border-radius: 24px;
   }
 
