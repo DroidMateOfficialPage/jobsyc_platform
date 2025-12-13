@@ -8,7 +8,7 @@ export default function SwipeableCard({ profile, card, onSwipe, index, disableSw
 if (disableSwipe) {
   return (
   <div
-    className="w-full h-full overflow-y-scroll touch-pan-y"
+    className="w-full h-full overflow-y-scroll overflow-x-hidden touch-pan-y"
     style={{ borderRadius: 18 }}
   >
     {card}
@@ -140,7 +140,7 @@ const handleEnd = () => {
     <CardWrapper
       style={{
         zIndex: 100 - index,
-        transform: `translate(calc(-50% + ${pos.x}px), ${pos.y}px) rotate(${pos.rot}deg)`,
+        transform: `translate(calc(-50% + ${pos.x}px), calc(-50% + ${pos.y}px)) rotate(${pos.rot}deg)`,
         transition: isDragging ? "none" : "0.3s ease",
       }}
       onClick={(e) => e.stopPropagation()}
@@ -207,8 +207,10 @@ const handleEnd = () => {
 const CardWrapper = styled.div`
   position: absolute;
   width: 380px;
+  max-width: calc(100vw - 32px);
+  margin: 0;
   height: 520px;
-  top: 0;
+  top: 50%;
   left: 50%;
   border-radius: 20px;
   background: white;
@@ -231,7 +233,7 @@ const CardWrapper = styled.div`
     width: 77vw;
     height: 70vh;
     max-width: 360px;
-    max-height: 500px;
+    max-height: 450px;
     border-radius: 24px;
   }
 
