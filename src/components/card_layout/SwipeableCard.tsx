@@ -43,6 +43,9 @@ if (disableSwipe) {
   const handleMove = (e) => {
     if (!isDragging) return;
 
+    // Prevent the browser from doing page panning/scrolling while we swipe the card
+    if (e.cancelable) e.preventDefault();
+
     const touch = e.touches?.[0];
     const clientX = touch ? touch.clientX : e.clientX;
     const clientY = touch ? touch.clientY : e.clientY;
@@ -137,7 +140,7 @@ const handleEnd = () => {
     <CardWrapper
       style={{
         zIndex: 100 - index,
-        transform: `translate(${pos.x}px, ${pos.y}px) rotate(${pos.rot}deg)`,
+        transform: `translate(calc(-50% + ${pos.x}px), ${pos.y}px) rotate(${pos.rot}deg)`,
         transition: isDragging ? "none" : "0.3s ease",
       }}
       onClick={(e) => e.stopPropagation()}
@@ -206,19 +209,22 @@ const CardWrapper = styled.div`
   width: 380px;
   height: 520px;
   top: 0;
-  left: 0;
+  left: 50%;
   border-radius: 20px;
   background: white;
   box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
   overflow: hidden;
   cursor: grab;
-
+  touch-action: none;
+  overscroll-behavior: contain;
+  will-change: transform;
 
   @media (prefers-color-scheme: dark) {
     background: #111111;
     box-shadow:
       0 18px 40px rgba(0, 0, 0, 0.6),
       0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
 
   /* Mobile phones under 420px */
   @media (max-width: 420px) {
