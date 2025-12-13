@@ -75,6 +75,7 @@ const BackWrapper = styled.div`
   @media (max-width: 420px) {
     width: 77vw;
     height: 70vh;
+    top: 0;
     max-width: 360px;
     max-height: 440px;
     border-radius: 20px;
