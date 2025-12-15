@@ -117,13 +117,14 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
           window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
+          function gtag(){dataLayer.push(argußments);}
           gtag('js', new Date());
 
           gtag('config', 'G-Y94Y6MBKJ8');
           `,
           }}
         />
+        <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="de940365-6699-41c0-878f-67f66b814e5e" type="text/javascript" async></script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
