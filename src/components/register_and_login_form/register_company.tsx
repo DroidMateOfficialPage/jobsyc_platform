@@ -54,6 +54,8 @@ const RegisterCompany = () => {
   const [locationQuery, setLocationQuery] = useState("");
   const [locationResults, setLocationResults] = useState([]);
 
+  const [googleReady, setGoogleReady] = useState(false);
+
   // -------------------------------
   // AUTH LISTENER
   // -------------------------------
@@ -101,33 +103,43 @@ const RegisterCompany = () => {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (document.getElementById("google-places-script")) return;
+    if (document.getElementById("google-places-script")) {
+      // If it's already loaded, mark as ready
+      if (window.google && window.google.maps) setGoogleReady(true);
+      return;
+    }
     const script = document.createElement("script");
     script.id = "google-places-script";
     script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
     script.async = true;
     script.defer = true;
+    script.onload = () => setGoogleReady(true);
     document.body.appendChild(script);
   }, []);
 
   useEffect(() => {
-    if (!window.google || !window.google.maps) return;
+    if (!googleReady || !window.google || !window.google.maps) return;
     if (!locationQuery) {
       setLocationResults([]);
       return;
     }
     const autocomplete = new window.google.maps.places.AutocompleteService();
-    autocomplete.getPlacePredictions(
-      {
-        input: locationQuery,
-        types: ["(cities)"],
-        componentRestrictions: { country: ["ba", "rs", "hr", "me", "si", "at", "de"] }
-      },
-      (predictions) => {
-        setLocationResults(predictions || []);
-      }
-    );
-  }, [locationQuery]);
+
+    const t = setTimeout(() => {
+      autocomplete.getPlacePredictions(
+        {
+          input: locationQuery,
+          types: ["(cities)"],
+          componentRestrictions: { country: ["ba", "rs", "hr", "me", "si", "at", "de"] },
+        },
+        (predictions) => {
+          setLocationResults(predictions || []);
+        }
+      );
+    }, 250);
+
+    return () => clearTimeout(t);
+  }, [locationQuery, googleReady]);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -258,6 +270,12 @@ const RegisterCompany = () => {
                   getOptionLabel={key === "industrija" ? (option) => option.label : undefined}
                   value={formData[key]}
                   onChange={(e, val) => handleChipChange(key, val)}
+                  ListboxProps={{
+                    style: {
+                      maxHeight: 240,   
+                      overflowY: "auto" 
+                    }
+                  }}
                   renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
                       <Chip
